@@ -16,6 +16,7 @@ MobX is proudly sponsored by Mendix, Coinbase, Facebook Open Source and many [in
 
 <img src="docs/mendix-logo.png" align="center" width="100" title="Mendix" alt="Mendix" /> <img src="docs/coinbase.jpeg" align="center" width="100" title="Coinbase" alt="Coinbase" /> <img src="docs/fbos.jpeg" align="center" width="100" title="Facebook Open Source" alt="Facebook Open Source" />
 
+
 # Installation
 
 * Installation: `npm install mobx --save`. React bindings: `npm install mobx-react --save`. To enable ESNext decorators (optional), see below.
@@ -23,12 +24,20 @@ MobX is proudly sponsored by Mendix, Coinbase, Facebook Open Source and many [in
 - https://unpkg.com/mobx/lib/mobx.umd.js
 - https://cdnjs.com/libraries/mobx
 
+
+_Tip: Consider using the faster and smaller ES6 build if targetting a modern environment: `lib/mobx.es6.js`. For example by setting up a webpack alias: `resolve: { alias: { mobx: __dirname + "/node_modules/mobx/lib/mobx.es6.js" }}`_
+
 # Browser support
+
+| MobX version | Actively supported  | Supported browsers | GitHub branch |
+| ----- | ----- | --- | --- |
+| 5.* | Yes | Any browser that supports [ES6 Proxies](https://kangax.github.io/compat-table/es6/#test-Proxy) (non polyfillable). _NOT:_ IE 11 and lower, Node 5 and lower | `master` |
+| 4.* | Yes (LTS) | Any ES5 compliant browser | `mobx4-master` |
+| 1-3.* | No |  Any ES5 compliant browser | No active branch |
 
 * MobX >=5 runs on any browser with [ES6 proxy support](https://kangax.github.io/compat-table/es6/#test-Proxy). It will throw an error on startup on older environments such as IE11, Node.js <6 or React Native Android on old JavaScriptCore [how-to-upgrade](https://github.com/react-community/jsc-android-buildscripts#how-to-use-it-with-my-react-native-app).
 * MobX 4 runs on any ES5 browser and will be actively maintained. The MobX 4 and 5 api's are the same and semantically can achieve the same, but MobX 4 has some [limitations](#mobx-4-vs-mobx-5).
 
-_Tip: the main entry point of the MobX 5 package ships with ES5 code for backward compatibility with all build tools. But since MobX 5 runs only on modern browsers anyway, consider using the faster and smaller ES6 build: `lib/mobx.es6.js`. For example by setting up a webpack alias: `resolve: { alias: { mobx: __dirname + "/node_modules/mobx/lib/mobx.es6.js" }}`_
 
 ## Translations
 
@@ -38,6 +47,7 @@ _Tip: the main entry point of the MobX 5 package ships with ES5 code for backwar
 
 * <i><a style="color: white; background:green;padding:5px;margin:5px;border-radius:2px" href="https://egghead.io/courses/manage-complex-state-in-react-apps-with-mobx">Egghead.io course</a></i>
 * [Ten minute, interactive MobX + React tutorial](https://mobxjs.github.io/mobx/getting-started.html)
+* <img src="docs/book.jpg" height="80px"/> [The MobX book](https://books.google.nl/books?id=ALFmDwAAQBAJ&pg=PP1&lpg=PP1&dq=michel+weststrate+mobx+quick+start+guide:+supercharge+the+client+state+in+your+react+apps+with+mobx&source=bl&ots=D460fxti0F&sig=ivDGTxsPNwlOjLHrpKF1nweZFl8&hl=nl&sa=X&ved=2ahUKEwiwl8XO--ncAhWPmbQKHWOYBqIQ6AEwAnoECAkQAQ#v=onepage&q=michel%20weststrate%20mobx%20quick%20start%20guide%3A%20supercharge%20the%20client%20state%20in%20your%20react%20apps%20with%20mobx&f=false) by Pavan Podila and Michel Weststrate (which despite it's name is in-depth!)
 * [Official MobX 4 documentation and API overview](https://mobxjs.github.io/mobx/refguide/api.html) ([MobX 3](https://github.com/mobxjs/mobx/blob/54557dc319b04e92e31cb87427bef194ec1c549c/docs/refguide/api.md), [MobX 2](https://github.com/mobxjs/mobx/blob/7c9e7c86e0c6ead141bb0539d33143d0e1f576dd/docs/refguide/api.md))
 * Videos:
   * [ReactNext 2016: Real World MobX](https://www.youtube.com/watch?v=Aws40KOx90U) - 40m [slides](https://docs.google.com/presentation/d/1DrI6Hc2xIPTLBkfNH8YczOcPXQTOaCIcDESdyVfG_bE/edit?usp=sharing)
@@ -277,6 +287,7 @@ And finally kudos for all the people that believed in, tried, validated and even
 
 ## Further resources and documentation
 
+* <img src="docs/book.jpg" height="80px"/> [The MobX book](https://books.google.nl/books?id=ALFmDwAAQBAJ&pg=PP1&lpg=PP1&dq=michel+weststrate+mobx+quick+start+guide:+supercharge+the+client+state+in+your+react+apps+with+mobx&source=bl&ots=D460fxti0F&sig=ivDGTxsPNwlOjLHrpKF1nweZFl8&hl=nl&sa=X&ved=2ahUKEwiwl8XO--ncAhWPmbQKHWOYBqIQ6AEwAnoECAkQAQ#v=onepage&q=michel%20weststrate%20mobx%20quick%20start%20guide%3A%20supercharge%20the%20client%20state%20in%20your%20react%20apps%20with%20mobx&f=false) by Pavan Podila and Michel Weststrate (which despite it's name is in-depth!)
 * [MobX homepage](http://mobxjs.github.io/mobx/faq/blogs.html)
 * [API overview](http://mobxjs.github.io/mobx/refguide/api.html)
 * [Tutorials, Blogs & Videos](http://mobxjs.github.io/mobx/faq/blogs.html)
@@ -310,7 +321,7 @@ The difference between MobX 4 and MobX 5 is that the latter uses Proxies to do p
 
 The most noteable limitations of MobX 4:
   * Observable arrays are not real arrays, so they won't pass the `Array.isArray()` check. The practical consequence is that you often need to `.slice()` the array first (to get a real array shallow copy) before passing to third party libraries.
-  * Adding properties to existing observable objects after creation is automatically picked up. Either use observable maps instead, or use the the build in [utility functions](https://mobx.js.org/refguide/object-api.html) to read / write / iterate objects that you want to dynamically add properties to.
+  * Adding properties to existing observable objects after creation is not automatically picked up. Either use observable maps instead, or use the the build in [utility functions](https://mobx.js.org/refguide/object-api.html) to read / write / iterate objects that you want to dynamically add properties to.
 
 For more details see the [caveats page](https://mobx.js.org/best/pitfalls.html).
 
